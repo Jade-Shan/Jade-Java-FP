@@ -1,0 +1,63 @@
+package net.jadedungeon.javautil.collection.struct;
+
+import java.util.Objects;
+
+public class Tuple4<T1, T2, T3, T4> {
+	private final T1 _1;
+	private final T2 _2;
+	private final T3 _3;
+	private final T4 _4;
+
+	public static <T1, T2, T3, T4> Tuple4<T1, T2, T3, T4> of(T1 _1, T2 _2, T3 _3, T4 _4) {
+		return new Tuple4<>(_1, _2, _3, _4);
+	}
+
+	public Tuple4(T1 _1, T2 _2, T3 _3, T4 _4) {
+		super();
+		this._1 = _1;
+		this._2 = _2;
+		this._3 = _3;
+		this._4 = _4;
+	}
+
+	public T1 get_1() {
+		return _1;
+	}
+
+	public T2 get_2() {
+		return _2;
+	}
+
+	public T3 get_3() {
+		return _3;
+	}
+
+	public T4 get_4() {
+		return _4;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(_1, _2, _3, _4);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		@SuppressWarnings("unchecked")
+		Tuple4<T1, T2, T3, T4> other = (Tuple4<T1, T2, T3, T4>) obj;
+		return Objects.equals(_1, other._1) && Objects.equals(_2, other._2) && Objects.equals(_3, other._3)
+				&& Objects.equals(_4, other._4);
+	}
+
+	@Override
+	public String toString() {
+		return String.format("Tuple5 [%s, %s, %s, %s]", _1, _2, _3, _4);
+	}
+
+}
