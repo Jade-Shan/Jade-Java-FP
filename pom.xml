@@ -6,7 +6,7 @@
 
 	<groupId>net.jade-dungeon</groupId>
 	<artifactId>Jade-Java-FP</artifactId>
-	<version>0.0.1</version>
+	<version>1.0.1</version>
 
 	<name>Jade-Java-FP</name>
 	<description>Java Functional Utils</description>

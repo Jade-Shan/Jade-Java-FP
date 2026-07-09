@@ -8,18 +8,18 @@ import java.util.stream.Stream;
 
 import net.jadedungeon.javautil.collection.struct.Either;
 
-public class BinList<L, R> {
+public class BinSeq<L, R> {
 	private final Seq<L> leftSeq;
 	private final Seq<R> rightSeq;
 
-	public BinList() {
+	public BinSeq() {
 		this.leftSeq = Seq.empty();
 		this.rightSeq = Seq.empty();
 	}
 
-	public BinList(Seq<L> leftList, Seq<R> rightList) {
-		this.leftSeq = leftList == null ? Seq.empty() : leftList;
-		this.rightSeq = rightList == null ? Seq.empty() : rightList;
+	public BinSeq(Seq<L> leftSeq, Seq<R> rightSeq) {
+		this.leftSeq = leftSeq == null ? Seq.empty() : leftSeq;
+		this.rightSeq = rightSeq == null ? Seq.empty() : rightSeq;
 	}
 
 	public Seq<L> getLeft() {
@@ -30,43 +30,43 @@ public class BinList<L, R> {
 		return this.rightSeq;
 	}
 
-	public BinList<L, R> appendLeft(L value) {
+	public BinSeq<L, R> appendLeft(L value) {
 		if (null != value) {
 			Seq<L> newSeq = this.leftSeq.attach(value);
-			return new BinList<L, R>(newSeq, this.rightSeq);
+			return new BinSeq<L, R>(newSeq, this.rightSeq);
 		} else {
 			return this;
 		}
 	}
 
-	public BinList<L, R> appendRight(R value) {
+	public BinSeq<L, R> appendRight(R value) {
 		if (null != value) {
 			Seq<R> newSeq = this.rightSeq.attach(value);
-			return new BinList<L, R>(this.leftSeq, newSeq);
+			return new BinSeq<L, R>(this.leftSeq, newSeq);
 		} else {
 			return this;
 		}
 	}
 
-	public BinList<L, R> appendLeft(Optional<L> value) {
+	public BinSeq<L, R> appendLeft(Optional<L> value) {
 		if (null != value && value.isPresent()) {
 			Seq<L> newSeq = this.leftSeq.attach(value.get());
-			return new BinList<L, R>(newSeq, this.rightSeq);
+			return new BinSeq<L, R>(newSeq, this.rightSeq);
 		} else {
 			return this;
 		}
 	}
 
-	public BinList<L, R> appendRight(Optional<R> value) {
+	public BinSeq<L, R> appendRight(Optional<R> value) {
 		if (null != value && value.isPresent()) {
 			Seq<R> newSeq = this.rightSeq.attach(value.get());
-			return new BinList<L, R>(this.leftSeq, newSeq);
+			return new BinSeq<L, R>(this.leftSeq, newSeq);
 		} else {
 			return this;
 		}
 	}
 
-	public BinList<L, R> append(Either<L, R> o) {
+	public BinSeq<L, R> append(Either<L, R> o) {
 		if (o.isLeftPresent()) {
 			return appendLeft(o.left());
 		} else if (o.isRightPresent()) {
@@ -76,25 +76,25 @@ public class BinList<L, R> {
 		}
 	}
 
-	public BinList<L, R> appendLeft(List<L> list) {
+	public BinSeq<L, R> appendLeft(List<L> list) {
 		if (null != list) {
 			Seq<L> newSeq = Seq.empty();
 			for (int i = 0; i < list.size(); i++) {
 				newSeq = newSeq.attach(list.get(i));
 			}
-			return new BinList<L, R>(newSeq, this.rightSeq);
+			return new BinSeq<L, R>(newSeq, this.rightSeq);
 		} else {
 			return this;
 		}
 	}
 
-	public BinList<L, R> appendRight(List<R> list) {
+	public BinSeq<L, R> appendRight(List<R> list) {
 		if (null != list) {
 			Seq<R> newSeq = Seq.empty();
 			for (int i = 0; i < list.size(); i++) {
 				newSeq = newSeq.attach(list.get(i));
 			}
-			return new BinList<L, R>(this.leftSeq, newSeq);
+			return new BinSeq<L, R>(this.leftSeq, newSeq);
 		} else {
 			return this;
 		}
@@ -121,34 +121,34 @@ public class BinList<L, R> {
 		}
 	}
 
-	public BinList<L, R> appendLeft(Seq<L> seq) {
+	public BinSeq<L, R> appendLeft(Seq<L> seq) {
 		if (null == seq || seq.isEmpty()) {
 			return this;
 		} else {
 			Seq<L> newSeq = appendElems(this.leftSeq, seq);
-			return new BinList<L, R>(newSeq, this.rightSeq);
+			return new BinSeq<L, R>(newSeq, this.rightSeq);
 		}
 	}
 
-	public BinList<L, R> appendRight(Seq<R> seq) {
+	public BinSeq<L, R> appendRight(Seq<R> seq) {
 		if (null == seq || seq.isEmpty()) {
 			return this;
 		} else {
 			Seq<R> newSeq = appendElems(this.rightSeq, seq);
-			return new BinList<L, R>(this.leftSeq, newSeq);
+			return new BinSeq<L, R>(this.leftSeq, newSeq);
 		}
 	}
 
-	public BinList<L, R> append(BinList<L, R> other) {
+	public BinSeq<L, R> append(BinSeq<L, R> other) {
 		Seq<L> newLeft = appendElems(this.leftSeq, other.leftSeq);
 		Seq<R> newRight = appendElems(this.rightSeq, other.rightSeq);
-		return new BinList<L, R>(newLeft, newRight);
+		return new BinSeq<L, R>(newLeft, newRight);
 	}
 
-	public static <L, R> BinList<L, R> unzip(Stream<Either<L, R>> stream, // nl
+	public static <L, R> BinSeq<L, R> unzip(Stream<Either<L, R>> stream, // nl
 			Consumer<Exception> errHandl) throws Exception // nl
 	{
-		BinList<L, R> result = new BinList<L, R>();
+		BinSeq<L, R> result = new BinSeq<L, R>();
 		try {
 			Seq<L> newLeft = Seq.empty();
 			Seq<R> newRight = Seq.empty();
@@ -159,7 +159,7 @@ public class BinList<L, R> {
 					newRight.attach(rec.right().get());
 				}
 			});
-			return new BinList<L, R>(newLeft, newRight);
+			return new BinSeq<L, R>(newLeft, newRight);
 		} catch (Exception e) {
 			if (null != errHandl) {
 				errHandl.accept(e);
@@ -171,3 +171,4 @@ public class BinList<L, R> {
 	}
 
 }
+
